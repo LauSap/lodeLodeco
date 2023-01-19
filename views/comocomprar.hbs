@@ -1,0 +1,161 @@
+
+<div class="container text-center m font-monospace text-bg-warning">
+    <hr>
+    <h1>
+        ¿Cómo Comprar?
+    </h1>
+    <hr>
+</div>
+
+</div>
+<div class="container text-center m font-monospace">
+    <form action="/comocomprar" method="post">
+       <div class="mb-3">
+            <label for="articulo" class="form-label">Articulo</label>
+            <input type="text" class="form-control text-bg-light" id="articulo" name="articulo" required>
+        </div>
+        <div class="mb-3">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" class="form-control text-bg-light" id="precio" name="precio" required>
+        </div>
+        <div class="mb-3">
+            <label for="comentarios" class="form-label">Comentarios</label>
+            <input type="text" class="form-control text-bg-light" id="comentarios" name="comentarios" required>
+        </div>
+               
+        <button type="submit" class="btn btn-warning">Confirmar Pedido</button>
+    </form>
+</div>
+
+<br>
+<br>
+<div class="container text-center m font-monospace">
+    <hr>
+    <h1>
+        Lista de Articulo Elegido
+    </h1>
+    <hr>
+</div>
+
+<table class="table table-striped container" id="mitabla">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Articulo</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Comentarios</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each datos}}
+        <tr>
+            <th scope="row">{{ idProducto }}</th>
+            <td>{{ articulo }}</td>
+            <td>{{ precio }}</td>
+            <td>{{ comentarios }}</td>
+            <td>
+                <a href="javascript:void(0);" class="btn btn-danger delete"
+                    data-idProducto="{{ idProducto }}">Delete</a>
+                <a href="javascript:void(0);" class="btn btn-primary edit" data-idProducto="{{ idProducto }}"
+                    data-articulo="{{ articulo }}" data-precio="{{ precio }}"
+                    data-comentarios="{{ comentarios }}">Update</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+{{!-- Modal para el Delete --}}
+<form action="/delete" method="post">
+    <div class="modal" id="DeleteModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de eliminar el Producto?</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="number" name="idProducto" id="idProducto" class="idProducto" required>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{{!-- Modal para el Update --}}
+<form action="/update" method="post">
+  <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Producto</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+   <div class="modal-body">
+   <div class="mb-3">
+   <label for="articulo" class="col-form-label">Articulo: </label>
+    <input type="text" class="form-control articulo" id="articulo" name="articulo">
+    </div>
+    <div class="mb-3">
+    <label for="precio" class="col-form-label">Precio: </label>
+    <input type="number" class="form-control precio" id="precio" name="precio">
+     </div>
+     <div class="mb-3">
+     <label for="comentarios" class="col-form-label">Comentarios: </label>
+     <textarea class="form-control comentarios" id="comentarios" name="comentarios"></textarea>
+    </div>
+    <div>
+                <div class="modal-footer">
+                    <input type="hidden" name="idProducto" id="idProducto" class="idProducto">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>  
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+
+{{!-- Función para tomar los datos del Modal --}}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#mitabla').on('click', '.delete', function () {
+            let idProducto = $(this).data('idProducto');
+            $('#DeleteModal').modal('show')
+        })
+
+        $('#mitabla').on('click', '.edit', function () {
+            let idProducto = $(this).data('idProducto');
+            let articulo = $(this).data('articulo');
+            let precio = $(this).data('precio');
+            let descripcion = $(this).data('descripcion');
+            $('#EditModal').modal('show');
+            $('.articulo').modal('articulo');
+            $('.precio').modal('precio');
+            $('.descripcion').modal('descripcion');
+        })
+
+    })
+
+
+</script>
+
+
+
+
+
+
